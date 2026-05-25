@@ -5,6 +5,7 @@ import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
+import io.minio.messages.Item;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -145,6 +146,41 @@ class SpringBoot01MinioApplicationTests {
 
 
         System.out.println(objectUrl);
+
+    }
+
+
+    @Test
+    void test09() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        GetObjectResponse objectUrl = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket("jl-file")
+                        .object("7.jpg")
+                        .build()
+        );
+
+        System.out.println(objectUrl.toString());
+    }
+
+
+    @Test
+    void test10(){
+        Iterable<Result<Item>> results = minioClient.listObjects(
+                ListObjectsArgs.builder()
+                        .bucket("jl-file")
+                        .build()
+        );
+
+        results.forEach(
+                itemResult -> {
+                    try {
+                        Item item = itemResult.get();
+                        System.out.println(item.objectName());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
 
     }
 
