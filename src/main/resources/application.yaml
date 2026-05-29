@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/spring-projects/spring-boot/main/spring-boot-project/spring-boot-tools/spring-boot-configuration-processor/src/main/resources/META-INF/spring-configuration-metadata.json
+spring:
+  application:
+    name: besrey-minio
+  datasource:
+    url:  jdbc:mysql://192.168.92.128:3306/besrey?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    com.besrey: debug
+  pattern:
+    dateformat: HH:mm:ss
+
+# Mybatis-plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true  # 是否开启下划线和驼峰的映射
+    cache-enabled: false     # 是否开启二级缓存
+  type-aliases-package: com.besrey.minio.domain.po  # 别名扫描包
+  mapper-locations: "classpath*:/mapper/**/*.xml"   # Mapper.xml文件地址，默认值
+  global-config:
+    db-config:
+      id-type: assign_id  # id为雪花算法生成
+      update-strategy: not_null  # 更新策略：只更新非空字段
